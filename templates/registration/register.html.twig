@@ -5,7 +5,7 @@
 {% block body %}
     <div class="min-h-screen bg-background flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h1 class="text-2xl font-bold text-primary mb-8">Register</h1>
+            <h1 class="text-2xl font-bold text-primary mb-8">Inscription</h1>
 
             {{ form_errors(registrationForm) }}
 
@@ -24,7 +24,7 @@
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'style': 'margin-right: 8px;'}}) }}
                     {{ form_label(registrationForm.agreeTerms, 'Accepter les termes de services', {'label_attr': {'class': 'text-sm text-gray-700'}}) }}
                 </div>
-                <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded hover:bg-tertiary transition duration-300">Register</button>
+                <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded hover:bg-tertiary transition duration-300">S'inscrire</button>
             {{ form_end(registrationForm) }}
         </div>
     </div>

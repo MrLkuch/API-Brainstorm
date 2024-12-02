@@ -1,46 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>{% block title %}Brainstorm{% endblock %}</title>
-</head>
-<body>
-    <!-- Header avec l'icône de profil -->
-    <div class="bg-white shadow-md p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold">Brainstorm</h1>
-        <div class="relative">
-            <button class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400" id="profile-menu-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10.003 10.003 0 0112 3a10.003 10.003 0 016.879 14.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            </button>
-            <!-- Menu déroulant -->
-            <div id="profile-menu" class="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg hidden">
-                {% if app.user %}
-                <p class="p-2 text-gray-700 border-b border-gray-200">Connecté en tant que {{ app.user.email }}</p>
-                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se déconnecter</a>
-                {% else %}
-                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se connecter</a>
-                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Créer un compte</a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        {% endblock %}
 
-    <!-- Contenu principal -->
-    <div class="min-h-screen bg-gray-100 flex flex-col">
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
         {% block body %}{% endblock %}
-    </div>
-
-    <script>
-        // Gestion du menu déroulant
-        const profileMenuBtn = document.getElementById('profile-menu-btn');
-        const profileMenu = document.getElementById('profile-menu');
-        profileMenuBtn.addEventListener('click', () => {
-            profileMenu.classList.toggle('hidden');
-        });
-    </script>
-</body>
+    </body>
 </html>

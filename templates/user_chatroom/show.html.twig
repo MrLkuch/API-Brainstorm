@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserChatroom{% endblock %}
+
+{% block body %}
+    <h1>UserChatroom</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user_chatroom.id }}</td>
+            </tr>
+            <tr>
+                <th>LastRead</th>
+                <td>{{ user_chatroom.lastRead ? user_chatroom.lastRead|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_chatroom_index') }}">back to list</a>
+
+    <a href="{{ path('app_user_chatroom_edit', {'id': user_chatroom.id}) }}">edit</a>
+
+    {{ include('user_chatroom/_delete_form.html.twig') }}
+{% endblock %}

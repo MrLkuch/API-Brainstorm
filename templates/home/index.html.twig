@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Header avec l'icône de profil -->
+    <div class="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Chat Application</h1>
+        <div class="relative">
+            <button class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400" id="profile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10.003 10.003 0 0112 3a10.003 10.003 0 016.879 14.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
+            <!-- Menu déroulant -->
+            <div id="profile-menu" class="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg hidden">
+                {% if app.user %}
+                <p class="p-2 text-gray-700 border-b border-gray-200">Connecté en tant que {{ app.user.username }}</p>
+                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                {% else %}
+                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se connecter</a>
+                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="flex flex-1">
+        <!-- Sidebar: Liste des Chatrooms -->
+        <div class="w-1/4 bg-white shadow-md">
+            <div class="p-4">
+                <h2 class="font-bold text-xl mb-4">Chatrooms</h2>
+                <ul class="space-y-2">
+                    {% for room in Chatrooms %}
+                    <li class="p-2 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer">
+                        {{ room.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="w-3/4 bg-gray-50 flex flex-col">
+            <!-- Messages -->
+            <div class="flex-1 p-4 space-y-4 overflow-y-auto">
+                {% for message in messages %}
+                <div class="flex {{ message.user == currentUser ? 'justify-end' : 'justify-start' }} items-center">
+                    {% if message.user != currentUser %}
+                    <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                        {{ message.user.initials }}
+                    </div>
+                    {% endif %}
+                    <div class="bg-gray-200 p-4 rounded w-3/4">
+                        <p class="font-bold">{{ message.user.name }}</p>
+                        <p>{{ message.content }}</p>
+                    </div>
+                    {% if message.user == currentUser %}
+                    <div class="w-12 h-12 bg-blue-300 rounded-full flex items-center justify-center">
+                        {{ currentUser.initials }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white border-t">
+                <!-- Boutons IA -->
+                <div class="flex space-x-2 mb-4">
+                    <button class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Résumé</button>
+                    <button class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Idée</button>
+                    <button class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Critique</button>
+                    <button class="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Prompt perso</button>
+                </div>
+
+                <!-- Champ de saisie -->
+                <div class="flex items-center space-x-2">
+                    <input 
+                        type="text" 
+                        placeholder="Veuillez écrire votre message" 
+                        class="flex-1 border border-gray-300 rounded px-4 py-2"
+                        onkeydown="if (event.key === 'Enter') { document.getElementById('send-button').click(); }"
+                    />
+                    <button 
+                        id="send-button" 
+                        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                        Envoyer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gérer l'affichage du menu de profil
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    profileMenuBtn.addEventListener('click', () => {
+        profileMenu.classList.toggle('hidden');
+    });
+</script>
+{% endblock %}

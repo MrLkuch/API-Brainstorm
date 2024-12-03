@@ -1,11 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Chatroom{% endblock %}
+{% block title %}Brainstorm{% endblock %}
 
 {% block body %}
-    <h1>Create new Chatroom</h1>
+<div class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Header avec l'icône de profil -->
+    <div class="bg-white shadow-md p-4 flex justify-between items-center">
+        <div class="relative">
+            <button class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400" id="profile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A10.003 10.003 0 0112 3a10.003 10.003 0 016.879 14.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
+            <!-- Menu déroulant -->
+            <div id="profile-menu" class="absolute right-0 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg hidden">
+                {% if app.user %}
+                <p class="p-2 text-gray-700 border-b border-gray-200">Connecté en tant que {{ app.user.email }}</p>
+                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                {% else %}
+                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Se connecter</a>
+                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-    {{ include('chatroom/_form.html.twig') }}
+    <!-- Contenu principal -->
+    <div class="flex flex-1">
+        <!-- Sidebar: Liste des Chatrooms -->
+        <div class="w-1/4 bg-white shadow-md">
+            <div class="p-4">
+                <h2 class="font-bold text-xl mb-4">Chatrooms</h2>
+                {% if chatrooms is defined and chatrooms is not empty %}
+                    <ul class="space-y-2">
+                        {% for chatroom in chatrooms %}
+                            <li>
+                                <a href="{{ path('chat_home', { chatroom: chatroom.id }) }}"
+                                   class="block p-2 rounded {{ activeChatroom is defined and activeChatroom.id == chatroom.id ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300' }}">
+                                    {{ chatroom.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune chatroom disponible.</p>
+                {% endif %}
+            </div>
+        </div>
 
-    <a href="{{ path('app_chatroom_index') }}">back to list</a>
+        <!-- Main Chat Area -->
+        <div class="w-3/4 bg-gray-50 flex flex-col">
+            {% if activeChatroom is defined and activeChatroom %}
+            <!-- Messages -->
+            <div class="flex-1 p-4 space-y-4 overflow-y-auto">
+                {% for message in messages %}
+                <div class="flex {{ message.user == user ? 'justify-end' : 'justify-start' }} items-center">
+                    {% if message.user != user %}
+                    <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                        {{ message.user.email|slice(0, 2)|upper }}
+                    </div>
+                    {% endif %}
+                    <div class="bg-gray-200 p-4 rounded w-3/4">
+                        <p class="font-bold">{{ message.user.email }}</p>
+                        <p>{{ message.content }}</p>
+                    </div>
+                    {% if message.user == user %}
+                    <div class="w-12 h-12 bg-blue-300 rounded-full flex items-center justify-center">
+                        {{ user.email|slice(0, 2)|upper }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white border-t">
+                <!-- Champ de saisie -->
+                <form action="{{ path('send_message', { chatroom: activeChatroom.id }) }}" method="post" class="flex w-full">
+                    <input 
+                        type="text" 
+                        name="content"
+                        placeholder="Veuillez écrire votre message" 
+                        class="flex-grow border border-gray300 rounded px4 py2"
+                    />
+                    <button 
+                        type="submit"
+                        class= "bg-blue500 text-white py2 px4 rounded hover:bg-blue600">
+                        Envoyer
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <p>Aucune chat room sélectionnée.</p> 
+            {% endif %}
+         </div>
+     </div> 
+</div>
+
+<script>
+// Gestion du menu déroulant
+const profileMenuBtn = document.getElementById('profile-menu-btn');
+const profileMenu = document.getElementById('profile-menu');
+profileMenuBtn.addEventListener('click', () => {
+    profileMenu.classList.toggle('hidden');
+});
+</script>
+
 {% endblock %}

@@ -34,6 +34,7 @@ class ChatController extends AbstractController
             ? $messageRepository->findBy(['_chatroom' => $activeChatroom], ['sentAt' => 'ASC']) 
             : [];
     
+            dd($chatrooms);
         // Transmet les données à la vue Twig
         return $this->render('chat/index.html.twig', [
             'chatrooms' => $chatrooms,

@@ -1,56 +1,77 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Accueil{% endblock %}
-
 {% block body %}
-    <div class="min-h-screen bg-background flex flex-col">
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex justify-between items-center py-4">
-                    <div>
-                        <a href="#" class="text-lg font-semibold text-gray-500">ChatApp</a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <a href="#" class="text-gray-700 hover:text-gray-900">Accueil</a>
-                        <a href="#" class="text-gray-700 hover:text-gray-900">À propos</a>
-                        <a href="#" class="text-gray-700 hover:text-gray-900">Contact</a>
-                        <div class="relative">
-                            <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-gray-900 focus:outline-none">
-                                <span class="mr-1">👤</span>
-                                <span id="accountStatus">Compte</span>
-                            </button>
-                            <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10 hidden">
-                                <a href="#" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
-                                <a href="#" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
-                                <a href="#" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">Se déconnecter</a>
-                            </div>
+<div class="min-h-screen bg-background flex flex-col">
+<!-- Barre de navigation -->
+<nav class="bg-white shadow-lg sticky top-0 z-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center py-4">
+<!-- Logo -->
+<a href="#" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <!-- Menu de navigation -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+
+                    <!-- Menu utilisateur -->
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
+                            <span class="mr-2">👤</span>
+                            <span id="accountStatus" class="font-medium">Compte</span>
+                        </button>
+                        <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                            <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                            <a href="#" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">Se déconnecter</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
 
-        <div class="flex-grow flex items-center justify-center">
-            <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-                <h1 class="text-2xl font-bold text-primary mb-8">Bienvenue sur ChatApp</h1>
-
-                <div id="userButtons" class="space-y-4 hidden">
-                    <button id="createChatroomButton" class="w-full bg-primary text-white py-3 px-4 rounded hover:bg-tertiary transition duration-300">
-                        Créer une Chatroom
-                    </button>
-                    <button id="myChatroomsButton" class="w-full bg-secondary text-white py-3 px-4 rounded hover:bg-tertiary transition duration-300">
-                        Mes Chatrooms
-                    </button>
-                </div>
-
-                <div id="guestMessage" class="text-center text-gray-600">
-                    <p>Connectez-vous pour créer ou accéder à vos chatrooms.</p>
-                </div>
+                <!-- Menu mobile -->
+                <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
+                    ☰
+                </button>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <script>
-        // Le script JavaScript reste inchangé
-    </script>
+    <!-- Contenu principal -->
+    <main class="flex-grow flex items-center justify-center bg-background">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-2xl font-bold text-primary text-center mb-6">Bienvenue sur ChatApp</h1>
+            <p class="text-gray-600 text-center mb-8">Connectez-vous pour créer ou accéder à vos chatrooms.</p>
+
+            <!-- Actions utilisateur -->
+            <div id="userButtons" class="space-y-4 hidden">
+                <button id="createChatroomButton" class="w-full bg-primary text-white py-3 rounded hover:bg-tertiary transition duration-300">
+                    Créer une Chatroom
+                </button>
+                <button id="myChatroomsButton" class="w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300">
+                    Mes Chatrooms
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-200 py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">© 2024 ChatApp. Tous droits réservés.</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Menu déroulant utilisateur
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userMenu = document.getElementById('userMenu');
+
+    userMenuButton.addEventListener('click', () => {
+        userMenu.classList.toggle('hidden');
+    });
+
+    // Menu mobile (ajouter votre logique ici si nécessaire)
+</script>
+
 {% endblock %}

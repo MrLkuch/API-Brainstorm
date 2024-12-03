@@ -2,12 +2,12 @@
 {% block title %}Accueil{% endblock %}
 {% block body %}
 <div class="min-h-screen bg-background flex flex-col">
-<!-- Barre de navigation -->
-<nav class="bg-white shadow-lg sticky top-0 z-20">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between items-center py-4">
-<!-- Logo -->
-<a href="#" class="text-xl font-extrabold text-primary">Ultramar</a>
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="#" class="text-xl font-extrabold text-primary">Ultramar</a>
                 <!-- Menu de navigation -->
                 <div class="hidden md:flex space-x-6 items-center">
                     <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
@@ -18,12 +18,21 @@
                     <div class="relative">
                         <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
                             <span class="mr-2">👤</span>
-                            <span id="accountStatus" class="font-medium">Compte</span>
+                            <span id="accountStatus" class="font-medium">
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                    {{ app.user.email }}
+                                {% else %}
+                                    Compte
+                                {% endif %}
+                            </span>
                         </button>
                         <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                            <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
-                            <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
-                            <a href="#" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">Se déconnecter</a>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <a href="{{ path('app_logout') }}" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                                <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -40,17 +49,30 @@
     <main class="flex-grow flex items-center justify-center bg-background">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h1 class="text-2xl font-bold text-primary text-center mb-6">Bienvenue sur ChatApp</h1>
-            <p class="text-gray-600 text-center mb-8">Connectez-vous pour créer ou accéder à vos chatrooms.</p>
-
-            <!-- Actions utilisateur -->
-            <div id="userButtons" class="space-y-4 hidden">
-                <button id="createChatroomButton" class="w-full bg-primary text-white py-3 rounded hover:bg-tertiary transition duration-300">
-                    Créer une Chatroom
-                </button>
-                <button id="myChatroomsButton" class="w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300">
-                    Mes Chatrooms
-                </button>
-            </div>
+            
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <p class="text-gray-600 text-center mb-8">Bienvenue {{ app.user.email }}! Que souhaitez-vous faire?</p>
+                <div class="space-y-4">
+                    <button id="createChatroomButton" class="w-full bg-primary text-white py-3 rounded hover:bg-tertiary transition duration-300">
+                        Créer une Chatroom
+                    </button>
+                    <a href="{{ path('app_chat') }}" class="w-full inline-block">
+                        <button id="myChatroomsButton" class="w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300">
+                            Mes Chatrooms
+                        </button>
+                    </a>
+                </div>
+            {% else %}
+                <p class="text-gray-600 text-center mb-8">Connectez-vous pour créer ou accéder à vos chatrooms.</p>
+                <div class="space-y-4">
+                    <a href="{{ path('app_login') }}" class="block w-full bg-primary text-white py-3 rounded hover:bg-tertiary transition duration-300 text-center">
+                        Se connecter
+                    </a>
+                    <a href="{{ path('app_register') }}" class="block w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300 text-center">
+                        Créer un compte
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </main>
 

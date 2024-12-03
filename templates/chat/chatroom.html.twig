@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="chat-container">
+        <div class="chatroom-list">
+            <h2>Chatrooms</h2>
+            <ul>
+                {% for room in app.user.chatrooms %}
+                    <li><a href="{{ path('app_chat_room', {'id': room.id}) }}">{{ room.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="chat-messages">
+            <h2>{{ chatroom.name }}</h2>
+            <div class="messages">
+                {% for message in chatroom.messages %}
+                    <div class="message">
+                        <strong>{{ message.user.email }}:</strong> {{ message.content }}
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post">
+                <input type="text" name="content" required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

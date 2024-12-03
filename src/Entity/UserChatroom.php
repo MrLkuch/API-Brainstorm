@@ -35,9 +35,9 @@ class UserChatroom
         return $this->user;
     }
 
-    public function setUser(?User $_user): static
+    public function setUser(?User $user): static
     {
-        $this->user = $_user;
+        $this->user = $user;
 
         return $this;
     }
@@ -47,9 +47,9 @@ class UserChatroom
         return $this->chatroom;
     }
 
-    public function setChatroom(?Chatroom $_chatroom): static
+    public function setChatroom(?Chatroom $chatroom): static
     {
-        $this->chatroom = $_chatroom;
+        $this->chatroom = $chatroom;
 
         return $this;
     }

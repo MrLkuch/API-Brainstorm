@@ -21,13 +21,13 @@ class Chatroom
     /**
      * @var Collection<int, UserChatroom>
      */
-    #[ORM\OneToMany(targetEntity: UserChatroom::class, mappedBy: '_chatroom')]
+    #[ORM\OneToMany(targetEntity: UserChatroom::class, mappedBy: 'chatroom')]
     private Collection $userChatrooms;
 
     /**
      * @var Collection<int, Message>
      */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: '_chatroom')]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'chatroom')]
     private Collection $messages;
 
     public function __construct()

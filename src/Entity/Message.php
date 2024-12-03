@@ -22,11 +22,11 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $_user = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Chatroom $_chatroom = null;
+    private ?Chatroom $chatroom = null;
 
     public function getId(): ?int
     {
@@ -59,24 +59,24 @@ class Message
 
     public function getUser(): ?User
     {
-        return $this->_user;
+        return $this->user;
     }
 
-    public function setUser(?User $_user): static
+    public function setUser(?User $user): static
     {
-        $this->_user = $_user;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getChatroom(): ?Chatroom
     {
-        return $this->_chatroom;
+        return $this->chatroom;
     }
 
-    public function setChatroom(?Chatroom $_chatroom): static
+    public function setChatroom(?Chatroom $chatroom): static
     {
-        $this->_chatroom = $_chatroom;
+        $this->chatroom = $chatroom;
 
         return $this;
     }

@@ -17,17 +17,19 @@ class ChatController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
+    
         // Vérifiez si l'utilisateur est connecté
-        if (!$user) {
-            return $this->redirectToRoute('app_login'); // redirigez vers la page de connexion si non connecté
-        }
+        $user = $this->getUser();
 
+        if (!$user || !$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }        
+    
         // Récupérez les chatrooms associées à l'utilisateur
         $userChatrooms = $user->getUserChatrooms();
-
+    
         return $this->render('chat/index.html.twig', [
-            'userChatrooms' => $userChatrooms,
+            'chatrooms' => $userChatrooms, // Assurez-vous que la variable est correctement nommée ici
         ]);
     }
 

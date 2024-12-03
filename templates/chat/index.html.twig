@@ -1,17 +1,86 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Chatrooms{% endblock %}
+
 {% block body %}
-    <div class="chat-container">
-        <div class="chatroom-list">
-            <h2>Chatrooms</h2>
-            <ul>
-                {% for chatroom in chatrooms %}
-                    <li><a href="{{ path('app_chat_room', {'id': chatroom.id}) }}">{{ chatroom.name }}</a></li>
-                {% endfor %}
-            </ul>
+<div class="min-h-screen bg-background flex flex-col">
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
+                            <span class="mr-2">👤</span>
+                            <span id="accountStatus" class="font-medium">
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                    {{ app.user.email }}
+                                {% else %}
+                                    Compte
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
+                    ☰
+                </button>
+            </div>
         </div>
-        <div class="chat-messages">
-            <h2>Select a chatroom</h2>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="flex-grow flex flex-col bg-background p-4">
+        <div class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
+            <!-- Liste des Chatrooms -->
+            <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
+                <h2 class="text-xl font-bold text-primary mb-4">Chatrooms</h2>
+                <ul class="space-y-2">
+                    {% for userChatroom in chatrooms %}
+                        <li>
+                            <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" class="text-gray-700 hover:text-primary transition">
+                                {{ userChatroom.chatroom.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-messages flex-grow bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold text-primary">Sélectionnez une chatroom</h2>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-200 py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">© 2024 ChatApp. Tous droits réservés.</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Menu déroulant utilisateur
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userMenu = document.getElementById('userMenu');
+
+    userMenuButton.addEventListener('click', () => {
+        userMenu.classList.toggle('hidden');
+    });
+</script>
+
 {% endblock %}

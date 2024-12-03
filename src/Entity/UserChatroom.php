@@ -16,11 +16,11 @@ class UserChatroom
 
     #[ORM\ManyToOne(inversedBy: 'userChatrooms')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $_user = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userChatrooms')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Chatroom $_chatroom = null;
+    private ?Chatroom $chatroom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastRead = null;
@@ -32,24 +32,24 @@ class UserChatroom
 
     public function getUser(): ?User
     {
-        return $this->_user;
+        return $this->user;
     }
 
     public function setUser(?User $_user): static
     {
-        $this->_user = $_user;
+        $this->user = $_user;
 
         return $this;
     }
 
     public function getChatroom(): ?Chatroom
     {
-        return $this->_chatroom;
+        return $this->chatroom;
     }
 
     public function setChatroom(?Chatroom $_chatroom): static
     {
-        $this->_chatroom = $_chatroom;
+        $this->chatroom = $_chatroom;
 
         return $this;
     }

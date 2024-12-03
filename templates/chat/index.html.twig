@@ -48,12 +48,8 @@
             <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
                 <h2 class="text-xl font-bold text-primary mb-4">Chatrooms</h2>
                 <ul class="space-y-2">
-                    {% for userChatroom in chatrooms %}
-                        <li>
-                            <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" class="text-gray-700 hover:text-primary transition">
-                                {{ userChatroom.chatroom.name }}
-                            </a>
-                        </li>
+                    {% for userChatroom in app.user.getUserChatrooms() %}
+                    <li><a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}">{{ userChatroom.chatroom.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

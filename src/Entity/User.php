@@ -188,4 +188,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getChatrooms(): Collection
+    {
+        return $this->userChatrooms->map(function (UserChatroom $userChatroom) {
+            return $userChatroom->getChatroom();
+        });
+    }
+
 }

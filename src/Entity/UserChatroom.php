@@ -14,11 +14,11 @@ class UserChatroom
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'userChatrooms')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userChatrooms')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'userChatrooms')]
+    #[ORM\ManyToOne(targetEntity: Chatroom::class, inversedBy: 'userChatrooms')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Chatroom $chatroom = null;
 

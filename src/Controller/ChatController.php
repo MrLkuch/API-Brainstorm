@@ -15,9 +15,7 @@ class ChatController extends AbstractController
 {
     #[Route('/chat', name: 'app_chat')]
     public function index(EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-    
+    { 
         // Vérifiez si l'utilisateur est connecté
         $user = $this->getUser();
 
@@ -36,15 +34,29 @@ class ChatController extends AbstractController
     #[Route('/chat/{id}', name: 'app_chat_room')]
     public function chatroom(Chatroom $chatroom): Response
     {
-        // Vérifiez si la chatroom existe et si l'utilisateur y a accès
+        // Vérifiez si l'utilisateur est connecté
         $user = $this->getUser();
-        if (!$user || !$chatroom->getUserChatrooms()->contains($user)) {
-            throw $this->createAccessDeniedException('You do not have access to this chatroom.');
+        
+        if (!$user || !$user instanceof User) {
+            return $this->redirectToRoute('app_login'); // Redirigez vers la page de connexion si non connecté
         }
-
-        return $this->render('chat/chatroom.html.twig', [
-            'chatroom' => $chatroom,
-        ]);
+    
+       // Vérifiez si l'utilisateur a accès à cette chatroom via UserChatroom
+       $hasAccess = false;
+       foreach ($user->getUserChatrooms() as $userChatroom) {
+           if ($userChatroom->getChatroom() === $chatroom) {
+               $hasAccess = true;
+               break;
+           }
+       }
+    
+       if (!$hasAccess) {
+           throw $this->createAccessDeniedException('You do not have access to this chatroom.');
+       }
+    
+       return $this->render('chat/chatroom.html.twig', [
+           'chatroom' => $chatroom,
+       ]);
     }
 
     #[Route('/chat/{id}/send', name: 'app_chat_send', methods: ['POST'])]

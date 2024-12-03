@@ -11,8 +11,16 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'home')]
     public function index(): Response
     {
+        $user = $this->getUser();
+        $message = 'Bienvenue sur la page d\'accueil !';
+    
+        if ($user) {
+            $message .= ' ' . $user->getUserIdentifier();
+        }
+    
         return $this->render('home/index.html.twig', [
-            'message' => 'Bienvenue sur la page d\'accueil !',
+            'message' => $message,
+            'user' => $user,
         ]);
     }
 }

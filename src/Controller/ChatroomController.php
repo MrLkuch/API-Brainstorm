@@ -74,8 +74,6 @@ final class ChatroomController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Pas besoin de persister à nouveau, car l'entité existe déjà.
-            // Juste appeler flush pour sauvegarder les changements.
             $entityManager->flush();
 
             return $this->redirectToRoute('app_chatroom_index', [], Response::HTTP_SEE_OTHER);

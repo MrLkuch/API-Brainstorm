@@ -19,25 +19,42 @@
     </nav>
 
     <!-- Contenu principal -->
-    <main class="flex-grow flex items-center justify-center bg-background">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
-            <h2 class="text-2xl font-bold text-primary text-center mb-6">{{ chatroom.name }}</h2>
-            
-            <div class="messages mb-6">
-                {% for message in chatroom.messages %}
-                    <div class="message mb-4">
-                        <strong class="text-primary">{{ message.user.email }}:</strong> 
-                        <p class="text-gray-700">{{ message.content }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+    <main class="flex-grow flex items-center justify-center bg-background relative">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl flex">
+            <!-- Zone des messages -->
+            <div class="flex-grow">
+                <h2 class="text-2xl font-bold text-primary text-center mb-6">{{ chatroom.name }}</h2>
+                
+                <div class="messages mb-6">
+                    {% for message in chatroom.messages %}
+                        <div class="message mb-4">
+                            <strong class="text-primary">{{ message.user.email }}:</strong> 
+                            <p class="text-gray-700">{{ message.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
 
-            <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post" class="flex items-center space-x-4">
-                <input type="text" name="content" required class="w-full bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
-                <button type="submit" class="bg-primary text-white py-3 px-6 rounded hover:bg-tertiary transition duration-300 mt-2">
-                    Envoyer
-                </button>
-            </form>
+                <!-- Formulaire d'envoi de message -->
+                <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post" class="flex items-center space-x-4">
+                    <input type="text" name="content" required class="w-full bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-tertiary transition duration-300 mt-2">
+                        Envoyer
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Zone d'ajout d'utilisateur -->
+        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 flex-shrink-0 w-72">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold text-primary mb-4">Ajouter un utilisateur</h3>
+                <form action="{{ path('app_user_chatroom_new', {'chatroomId': chatroom.id}) }}" method="post" class="flex flex-col space-y-4">
+                    <input type="email" name="email" required placeholder="Email de l'utilisateur à ajouter" class="bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-tertiary transition duration-300">
+                        Ajouter
+                    </button>
+                </form>
+            </div>
         </div>
     </main>
 

@@ -8,11 +8,14 @@
     <nav class="bg-white shadow-lg sticky top-0 z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
                 <a href="/" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <!-- Menu de navigation -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
-                    <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
-                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-primary transition">À propos</a>
+                    <a href="{{ path('app_contact') }}" class="text-gray-700 hover:text-primary transition">Contact</a>
+
+                    <!-- Menu utilisateur -->
                     <div class="relative">
                         <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
                             <span class="mr-2">👤</span>
@@ -26,14 +29,16 @@
                         </button>
                         <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                                <a href="{{ path('app_logout') }}" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
                             {% else %}
-                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
-                                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                                <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                                <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
+
+                <!-- Menu mobile -->
                 <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
                     ☰
                 </button>

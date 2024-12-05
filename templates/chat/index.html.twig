@@ -41,41 +41,48 @@
         </div>
     </nav>
 
-<!-- Contenu principal -->
-<main class="flex-grow flex flex-col bg-background p-4">
-    <div class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
-        <!-- Liste des Chatrooms -->
-        <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
-            <h2 class="text-xl font-bold text-primary mb-4">Vos Chatrooms</h2>
-            {% if app.user.getUserChatrooms() is not empty %}
-                <ul class="space-y-2">
-                    {% for userChatroom in app.user.getUserChatrooms() %}
-                        <li>
-                            <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" 
-                               class="text-blue-500 hover:text-blue-700 font-semibold">
-                                {{ userChatroom.chatroom.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500">Vous n'êtes associé à aucune chatroom pour le moment.</p>
-            {% endif %}
-        </div>
+    <!-- Contenu principal -->
+    <main class="flex-grow flex flex-col bg-background p-4">
+        <div class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
+            <!-- Liste des Chatrooms -->
+            <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
+                <h2 class="text-xl font-bold text-primary mb-4">Vos Chatrooms</h2>
+                {% if app.user.getUserChatrooms() is not empty %}
+                    <ul class="space-y-2">
+                        {% for userChatroom in app.user.getUserChatrooms() %}
+                            <li>
+                                <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" 
+                                   class="text-blue-500 hover:text-blue-700 font-semibold">
+                                    {{ userChatroom.chatroom.name }}
+                                </a>
+                                <!-- Formulaire de suppression de chatroom -->
+                                <form action="{{ path('app_chatroom_delete', {'id': userChatroom.chatroom.id}) }}" method="POST" class="mt-2">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ userChatroom.chatroom.id) }}">
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-red-400">
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-500">Vous n'êtes associé à aucune chatroom pour le moment.</p>
+                {% endif %}
+            </div>
 
-        <!-- Actions possibles -->
-        <div class="chat-messages flex-grow bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold text-primary mb-4">Actions Possibles</h2>
-            <div class="flex space-x-4">
-                <!-- Bouton Ajouter une Chatroom -->
-                <a href="{{ path('app_chatroom_new') }}" 
-                   class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-green-400">
-                    Ajouter une Chatroom
-                </a>
+            <!-- Actions possibles -->
+            <div class="chat-messages flex-grow bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold text-primary mb-4">Actions Possibles</h2>
+                <div class="flex space-x-4">
+                    <!-- Bouton Ajouter une Chatroom -->
+                    <a href="{{ path('app_chatroom_new') }}" 
+                       class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-green-400">
+                        Ajouter une Chatroom
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-200 py-4">

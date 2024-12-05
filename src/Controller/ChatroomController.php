@@ -90,12 +90,21 @@ final class ChatroomController extends AbstractController {
     #[Route('/{id}', name: 'app_chatroom_delete', methods: ['POST'])]
     public function delete(Request $request, Chatroom $chatroom, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$chatroom->getId(), $request->request->get('_token'))) { // Correction ici pour utiliser request au lieu de getPayload()
-            // Supprimer la chat room et sauvegarder les changements.
+        if ($this->isCsrfTokenValid('delete'.$chatroom->getId(), $request->request->get('_token'))) {
+            // Supprimer les enregistrements dans la table user_chatroom
+            foreach ($chatroom->getUserChatrooms() as $userChatroom) {
+                $entityManager->remove($userChatroom);
+            }
+            foreach ($chatroom->getMessages() as $message) {
+                $entityManager->remove($message);
+            }
+            // Supprimer la chatroom
             $entityManager->remove($chatroom);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('app_chatroom_index', [], Response::HTTP_SEE_OTHER);
+    
+        return $this->redirect('http://localhost:8001/chat');
     }
+    
+    
 }

@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos d'Ultramar{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-background flex flex-col">
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="{{ path('home') }}" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <!-- Menu de navigation -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-primary transition">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+
+                    <!-- Menu utilisateur -->
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
+                            <span class="mr-2">👤</span>
+                            <span id="accountStatus" class="font-medium">
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                    {{ app.user.email }}
+                                {% else %}
+                                    Compte
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <a href="{{ path('app_logout') }}" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                                <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu mobile -->
+                <button id="mobileMenuButton" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="flex-grow bg-background py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-primary text-center mb-8">À propos d'Ultramar</h1>
+            
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Notre Mission</h2>
+                    <p class="text-gray-600">Ultramar est une plateforme innovante qui combine la puissance des chatrooms traditionnelles avec l'intelligence artificielle pour créer un espace de débat dynamique et enrichissant. Notre mission est de favoriser des discussions constructives et d'élargir les perspectives en utilisant la technologie pour stimuler la réflexion critique.</p>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Fonctionnalités Clés</h2>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Chatrooms thématiques pour des discussions ciblées</li>
+                        <li>IA intégrée pour modérer et enrichir les débats</li>
+                        <li>Analyse en temps réel des arguments pour une discussion équilibrée</li>
+                        <li>Suggestions de ressources pertinentes par l'IA</li>
+                        <li>Système de réputation basé sur la qualité des contributions</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Notre Technologie IA</h2>
+                    <p class="text-gray-600">Notre IA utilise des algorithmes de traitement du langage naturel avancés pour comprendre le contexte des discussions, identifier les arguments clés, et proposer des contre-arguments ou des points de vue alternatifs. Elle est conçue pour encourager la pensée critique et l'ouverture d'esprit, tout en maintenant un environnement de débat respectueux et constructif.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Rejoignez-nous</h2>
+                    <p class="text-gray-600 mb-4">Que vous soyez passionné par les débats d'idées, curieux d'explorer de nouvelles perspectives, ou simplement intéressé par l'interaction homme-machine, Ultramar vous offre une expérience unique. Rejoignez notre communauté aujourd'hui et participez à la construction d'un espace de dialogue innovant et enrichissant.</p>
+                    <a href="{{ path('app_register') }}" class="inline-block bg-primary text-white font-bold py-3 px-6 rounded hover:bg-tertiary transition duration-300">S'inscrire maintenant</a>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-200 py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">© 2024 Ultramar. Tous droits réservés.</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Menu déroulant utilisateur
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userMenu = document.getElementById('userMenu');
+
+    userMenuButton.addEventListener('click', () => {
+        userMenu.classList.toggle('hidden');
+    });
+
+    // Menu mobile (ajouter votre logique ici si nécessaire)
+</script>
+{% endblock %}

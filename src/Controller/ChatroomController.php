@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Chatroom;
+use App\Entity\UserChatroom;
 use App\Form\ChatroomType;
 use App\Repository\ChatroomRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/chatroom')]
 final class ChatroomController extends AbstractController {
@@ -22,24 +24,40 @@ final class ChatroomController extends AbstractController {
     }
 
     #[Route('/new', name: 'app_chatroom_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        Security $security
+    ): Response {
         $chatroom = new Chatroom();
         $form = $this->createForm(ChatroomType::class, $chatroom);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer la chatroom
             $entityManager->persist($chatroom);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_chatroom_index', [], Response::HTTP_SEE_OTHER);
+    
+            // Associer l'utilisateur à la chatroom
+            $user = $security->getUser(); // Obtenir l'utilisateur connecté
+            if ($user) {
+                $userChatroom = new UserChatroom();
+                $userChatroom->setUser($user);
+                $userChatroom->setChatroom($chatroom);
+    
+                $entityManager->persist($userChatroom);
+                $entityManager->flush();
+            }
+    
+            return $this->redirect('http://localhost:8001/chat');
         }
-
+    
         return $this->render('chatroom/new.html.twig', [
             'chatroom' => $chatroom,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}', name: 'app_chatroom_show', methods: ['GET'])]
     public function show(Chatroom $chatroom): Response

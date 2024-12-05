@@ -8,7 +8,7 @@
     <nav class="bg-white shadow-lg sticky top-0 z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="#" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <a href="/" class="text-xl font-extrabold text-primary">Ultramar</a>
                 <div class="hidden md:flex space-x-6 items-center">
                     <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
                     <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
@@ -41,25 +41,41 @@
         </div>
     </nav>
 
-    <!-- Contenu principal -->
-    <main class="flex-grow flex flex-col bg-background p-4">
-        <div class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
-            <!-- Liste des Chatrooms -->
-            <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
-                <h2 class="text-xl font-bold text-primary mb-4">Chatrooms</h2>
+<!-- Contenu principal -->
+<main class="flex-grow flex flex-col bg-background p-4">
+    <div class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
+        <!-- Liste des Chatrooms -->
+        <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/3">
+            <h2 class="text-xl font-bold text-primary mb-4">Vos Chatrooms</h2>
+            {% if app.user.getUserChatrooms() is not empty %}
                 <ul class="space-y-2">
                     {% for userChatroom in app.user.getUserChatrooms() %}
-                    <li><a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}">{{ userChatroom.chatroom.name }}</a></li>
+                        <li>
+                            <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" 
+                               class="text-blue-500 hover:text-blue-700 font-semibold">
+                                {{ userChatroom.chatroom.name }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
-            </div>
+            {% else %}
+                <p class="text-gray-500">Vous n'êtes associé à aucune chatroom pour le moment.</p>
+            {% endif %}
+        </div>
 
-            <!-- Messages -->
-            <div class="chat-messages flex-grow bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-bold text-primary">Sélectionnez une chatroom</h2>
+        <!-- Actions possibles -->
+        <div class="chat-messages flex-grow bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-bold text-primary mb-4">Actions Possibles</h2>
+            <div class="flex space-x-4">
+                <!-- Bouton Ajouter une Chatroom -->
+                <a href="{{ path('app_chatroom_new') }}" 
+                   class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-green-400">
+                    Ajouter une Chatroom
+                </a>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-200 py-4">

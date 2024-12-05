@@ -1,28 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="chat-container">
-        <div class="chatroom-list">
-            <h2>Chatrooms</h2>
-            <ul>
-                {% for room in app.user.chatrooms %}
-                    <li><a href="{{ path('app_chat_room', {'id': room.id}) }}">{{ room.name }}</a></li>
-                {% endfor %}
-            </ul>
+<div class="min-h-screen bg-background flex flex-col">
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="/" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <!-- Menu de navigation -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+                </div>
+            </div>
         </div>
-        <div class="chat-messages">
-            <h2>{{ chatroom.name }}</h2>
-            <div class="messages">
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="flex-grow flex items-center justify-center bg-background">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
+            <h2 class="text-2xl font-bold text-primary text-center mb-6">{{ chatroom.name }}</h2>
+            
+            <div class="messages mb-6">
                 {% for message in chatroom.messages %}
-                    <div class="message">
-                        <strong>{{ message.user.email }}:</strong> {{ message.content }}
+                    <div class="message mb-4">
+                        <strong class="text-primary">{{ message.user.email }}:</strong> 
+                        <p class="text-gray-700">{{ message.content }}</p>
                     </div>
                 {% endfor %}
             </div>
-            <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post">
-                <input type="text" name="content" required>
-                <button type="submit">Send</button>
+
+            <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post" class="flex items-center space-x-4">
+                <input type="text" name="content" required class="w-full bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
+                <button type="submit" class="bg-primary text-white py-3 px-6 rounded hover:bg-tertiary transition duration-300 mt-2">
+                    Envoyer
+                </button>
             </form>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-200 py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">© 2024 ChatApp. Tous droits réservés.</p>
+        </div>
+    </footer>
+</div>
 {% endblock %}

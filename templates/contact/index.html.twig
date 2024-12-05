@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}À propos d'Ultramar{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
 <div class="min-h-screen bg-background flex flex-col">
@@ -49,35 +49,23 @@
     <!-- Contenu principal -->
     <main class="flex-grow bg-background py-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-primary text-center mb-8">À propos d'Ultramar</h1>
-            
+            <h1 class="text-3xl font-bold text-primary text-center mb-8">Contactez-nous</h1>
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Notre Mission</h2>
-                    <p class="text-gray-600">Ultramar est une plateforme innovante qui combine la puissance des chatrooms traditionnelles avec l'intelligence artificielle pour créer un espace de débat dynamique et enrichissant. Notre mission est de favoriser des discussions constructives et d'élargir les perspectives en utilisant la technologie pour stimuler la réflexion critique.</p>
-                </section>
-
-                <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Fonctionnalités Clés</h2>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2">
-                        <li>Chatrooms thématiques pour des discussions ciblées</li>
-                        <li>IA intégrée pour modérer et enrichir les débats</li>
-                        <li>Analyse en temps réel des arguments pour une discussion équilibrée</li>
-                        <li>Suggestions de ressources pertinentes par l'IA</li>
-                        <li>Système de réputation basé sur la qualité des contributions</li>
-                    </ul>
-                </section>
-
-                <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Notre Technologie IA</h2>
-                    <p class="text-gray-600">Notre IA utilise des algorithmes de traitement du langage naturel avancés pour comprendre le contexte des discussions, identifier les arguments clés, et proposer des contre-arguments ou des points de vue alternatifs. Elle est conçue pour encourager la pensée critique et l'ouverture d'esprit, tout en maintenant un environnement de débat respectueux et constructif.</p>
-                </section>
-
-                <section>
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Rejoignez-nous</h2>
-                    <p class="text-gray-600 mb-4">Que vous soyez passionné par les débats d'idées, curieux d'explorer de nouvelles perspectives, ou simplement intéressé par l'interaction homme-machine, Ultramar vous offre une expérience unique. Rejoignez notre communauté aujourd'hui et participez à la construction d'un espace de dialogue innovant et enrichissant.</p>
-                    <a href="{{ path('app_register') }}" class="inline-block bg-primary text-white font-bold py-3 px-6 rounded hover:bg-tertiary transition duration-300">S'inscrire maintenant</a>
-                </section>
+                <form action="#" method="post">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 font-semibold mb-2">Nom</label>
+                        <input type="text" id="name" name="name" required class="border border-gray-300 p-2 w-full rounded-md" placeholder="Votre nom">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                        <input type="email" id="email" name="email" required class="border border-gray-300 p-2 w-full rounded-md" placeholder="Votre email">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
+                        <textarea id="message" name="message" required rows="5" class="border border-gray-300 p-2 w-full rounded-md" placeholder="Votre message"></textarea>
+                    </div>
+                    <button type="submit" class="bg-primary text-white py-3 px-6 rounded hover:bg-tertiary transition duration-300">Envoyer</button>
+                </form>
             </div>
         </div>
     </main>
@@ -91,14 +79,15 @@
 </div>
 
 <script>
-    // Menu déroulant utilisateur
-    const userMenuButton = document.getElementById('userMenuButton');
-    const userMenu = document.getElementById('userMenu');
+// Menu déroulant utilisateur
+const userMenuButton = document.getElementById('userMenuButton');
+const userMenu = document.getElementById('userMenu');
 
-    userMenuButton.addEventListener('click', () => {
-        userMenu.classList.toggle('hidden');
-    });
+userMenuButton.addEventListener('click', () => {
+    userMenu.classList.toggle('hidden');
+});
 
-    // Menu mobile (ajouter votre logique ici si nécessaire)
+// Menu mobile (ajouter votre logique ici si nécessaire)
 </script>
+
 {% endblock %}

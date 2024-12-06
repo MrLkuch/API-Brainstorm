@@ -111,13 +111,16 @@
 {% block javascripts %}
 <script>
 
+    document.addEventListener('DOMContentLoaded', () => {
     const userMenuButton = document.getElementById('userMenuButton');
     const userMenu = document.getElementById('userMenu');
 
-    userMenuButton.addEventListener('click', () => {
-    userMenu.classList.toggle('hidden');
+        if (userMenuButton && userMenu) {
+            userMenuButton.addEventListener('click', () => {
+                userMenu.classList.toggle('hidden');
+            });
+        }
     });
-
 
     document.querySelectorAll('#synthesize, #generate-idea, #critique, #custom-prompt').forEach(button => {
         button.addEventListener('click', () => {

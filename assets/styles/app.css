@@ -6,4 +6,7 @@ body {
     background-color: #E5E8F4;
 }
 
-
+.hidden {
+    display: none;
+  }
+  

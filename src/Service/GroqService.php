@@ -15,29 +15,21 @@ class GroqService
         $this->apiKey = $apiKey;
     }
 
-    public function sendRequest(array $formattedMessages): array
+    public function sendRequest(string $prompt): array
     {
-        $messagesPayload = array_map(function ($message) {
-            return [
-                'role' => 'user', // Ici, vous pouvez ajuster le rôle si nécessaire
-                'content' => $message
-            ];
-        }, $formattedMessages);
-    
-        $payload = [
-            'messages' => $messagesPayload,
-            'model' => 'mixtral-8x7b-32768' // Modèle spécifié dans la documentation
-        ];
-    
         $response = $this->httpClient->request('POST', 'https://api.groq.com/openai/v1/chat/completions', [
-            'json' => $payload
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'model' => 'mixtral-8x7b-32768',
+                'messages' => [
+                    ['role' => 'user', 'content' => $prompt],
+                ],
+            ],
         ]);
-    
-        $statusCode = $response->getStatusCode();
-        if ($statusCode !== 200) {
-            throw new \Exception("Erreur API, code : $statusCode. Réponse : " . $response->getContent(false));
-        }
-    
-        return json_decode($response->getContent(), true);
+
+        return $response->toArray();
     }
 }

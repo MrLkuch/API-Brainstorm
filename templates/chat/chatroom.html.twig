@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Chatroom{% endblock %}
 {% block body %}
 <div class="min-h-screen bg-background flex flex-col">
     <!-- Barre de navigation -->
@@ -10,9 +10,29 @@
                 <a href="/" class="text-xl font-extrabold text-blue-900">Ultramar</a>
                 <!-- Menu de navigation -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">Accueil</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">À propos</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">Contact</a>
+                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-blue-700 transition">À propos</a>
+                    <a href="{{ path('app_contact') }}" class="text-gray-700 hover:text-blue-700 transition">Contact</a>
+                <!-- Menu utilisateur -->
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-blue-700 focus:outline-none">
+                            <span class="mr-2">👤</span>
+                            <span id="accountStatus" class="font-medium">
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                    {{ app.user.email }}
+                                {% else %}
+                                    Compte
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <a href="{{ path('app_logout') }}" id="logoutLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se déconnecter</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" id="loginLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
+                                <a href="{{ path('app_register') }}" id="registerLink" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Créer un compte</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,6 +110,15 @@
 
 {% block javascripts %}
 <script>
+
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userMenu = document.getElementById('userMenu');
+
+    userMenuButton.addEventListener('click', () => {
+    userMenu.classList.toggle('hidden');
+    });
+
+
     document.querySelectorAll('#synthesize, #generate-idea, #critique, #custom-prompt').forEach(button => {
         button.addEventListener('click', () => {
             const chatroomId = button.getAttribute('data-chatroom-id');

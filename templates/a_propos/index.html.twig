@@ -9,15 +9,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <a href="{{ path('home') }}" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <a href="{{ path('home') }}" class="text-xl font-extrabold text-blue-700">Ultramar</a>
                 <!-- Menu de navigation -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-primary transition">À propos</a>
-                    <a href="{{ path('app_contact') }}" class="text-gray-700 hover:text-primary transition">Contact</a>
+                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-blue-700 transition">À propos</a>
+                    <a href="{{ path('app_contact') }}" class="text-gray-700 hover:text-blue-700 transition">Contact</a>
 
                     <!-- Menu utilisateur -->
                     <div class="relative">
-                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-primary focus:outline-none">
+                        <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-blue-700 focus:outline-none">
                             <span class="mr-2">👤</span>
                             <span id="accountStatus" class="font-medium">
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -64,14 +64,14 @@
                         <li>IA intégrée pour modérer et enrichir les débats</li>
                         <li>Analyse en temps réel des arguments pour une discussion équilibrée</li>
                         <li>Suggestions de ressources pertinentes par l'IA</li>
-                        <li>Système de réputation basé sur la qualité des contributions</li>
                     </ul>
                 </section>
 
                 <section class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Notre Technologie IA</h2>
-                    <p class="text-gray-600">Notre IA utilise des algorithmes de traitement du langage naturel avancés pour comprendre le contexte des discussions, identifier les arguments clés, et proposer des contre-arguments ou des points de vue alternatifs. Elle est conçue pour encourager la pensée critique et l'ouverture d'esprit, tout en maintenant un environnement de débat respectueux et constructif.</p>
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Comment GROQ Réinvente les Échanges</h2>
+                    <p class="text-gray-600">Notre chatroom s'appuie sur GROQ, une IA avancée en traitement du langage naturel. Elle analyse le contexte des discussions pour identifier les idées clés et suggérer des perspectives enrichissantes ou des contre-arguments pertinents. GROQ encourage la pensée critique, maintient un cadre de débat respectueux et favorise une meilleure compréhension grâce à des analyses précises.</p>
                 </section>
+
 
                 <section>
                     <h2 class="text-2xl font-semibold mb-4 text-gray-800">Rejoignez-nous</h2>

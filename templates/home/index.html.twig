@@ -51,14 +51,14 @@
             
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <p class="text-gray-600 text-center mb-8">Bienvenue {{ app.user.email }}! Que souhaitez-vous faire?</p>
-                <div class="space-y-4">
-                    <button id="createChatroomButton" class="w-full bg-primary text-white py-3 rounded hover:bg-tertiary transition duration-300">
-                        Créer une Chatroom
-                    </button>
-                    <a href="{{ path('app_chat') }}" class="w-full inline-block">
-                        <button id="myChatroomsButton" class="w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300">
-                            Mes Chatrooms
-                        </button>
+                <div class="flex flex-col items-center space-y-4">
+                    <a href="{{ path('app_chatroom_new') }}" 
+                    class="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-green-400">
+                        Ajouter une Chatroom
+                    </a>
+                    <a href="{{ path('app_chat') }}" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-green-400">
+                        Mes chatrooms
                     </a>
                 </div>
             {% else %}

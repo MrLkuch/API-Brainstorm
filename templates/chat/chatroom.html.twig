@@ -7,22 +7,41 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <a href="/" class="text-xl font-extrabold text-primary">Ultramar</a>
+                <a href="/" class="text-xl font-extrabold text-blue-900">Ultramar</a>
                 <!-- Menu de navigation -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#" class="text-gray-700 hover:text-primary transition">Accueil</a>
-                    <a href="#" class="text-gray-700 hover:text-primary transition">À propos</a>
-                    <a href="#" class="text-gray-700 hover:text-primary transition">Contact</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">Accueil</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-700 transition">Contact</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Contenu principal -->
-    <main class="flex-grow flex items-center justify-center bg-background relative">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl flex">
-            <!-- Zone des messages -->
-            <div class="flex-grow">
+    <main class="flex-grow bg-background relative p-4 md:p-8">
+        <div class="flex flex-col md:flex-row gap-8 max-w-7xl mx-auto">
+            <!-- Liste des chatrooms à gauche -->
+            <div class="chatroom-list bg-white p-6 rounded-lg shadow w-full md:w-1/4">
+                <h2 class="text-xl font-bold text-primary mb-4">Vos Chatrooms</h2>
+                {% if app.user.getUserChatrooms() is not empty %}
+                    <ul class="space-y-2">
+                        {% for userChatroom in app.user.getUserChatrooms() %}
+                            <li>
+                                <a href="{{ path('app_chat_room', {'id': userChatroom.chatroom.id}) }}" 
+                                class="text-blue-500 hover:text-blue-700 font-semibold {% if chatroom.id == userChatroom.chatroom.id %}font-bold{% endif %}">
+                                    {{ userChatroom.chatroom.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-500">Vous n'êtes associé à aucune chatroom pour le moment.</p>
+                {% endif %}
+            </div>
+            
+            <!-- Zone centrale (messages, boutons Groq, formulaire d'envoi) -->
+            <div class="flex-grow bg-white p-6 rounded-lg shadow">
                 <h2 class="text-2xl font-bold text-primary text-center mb-6">{{ chatroom.name }}</h2>
                 
                 <div id="messages" class="messages mb-6 max-h-96 overflow-y-auto">
@@ -36,26 +55,25 @@
 
                 <!-- Boutons pour les commandes Groq -->
                 <div class="flex flex-wrap justify-center gap-2 mb-4">
-                    <button id="synthesize" data-chatroom-id="{{ chatroom.id }}" class="bg-primary text-black py-2 px-4 rounded hover:bg-tertiary transition duration-300">Synthétiser</button>                    <button id="generate-idea" data-chatroom-id="{{ chatroom.id }}" class="bg-primary text-black py-2 px-4 rounded hover:bg-tertiary transition duration-300">Générer une idée</button>
-                    <button id="critique" data-chatroom-id="{{ chatroom.id }}" class="bg-primary text-black py-2 px-4 rounded hover:bg-tertiary transition duration-300">Critiquer</button>
-                    <button id="custom-prompt" data-chatroom-id="{{ chatroom.id }}" class="bg-primary text-black py-2 px-4 rounded hover:bg-tertiary transition duration-300">Prompt personnalisé</button>
+                    <button id="synthesize" data-chatroom-id="{{ chatroom.id }}" class="bg-red-800 text-white py-2 px-4 rounded hover:bg-red-900 transition duration-300">Synthétiser</button>
+                    <button id="generate-idea" data-chatroom-id="{{ chatroom.id }}" class="bg-red-800 text-white py-2 px-4 rounded hover:bg-red-900 transition duration-300">Générer une idée</button>                    
+                    <button id="critique" data-chatroom-id="{{ chatroom.id }}" class="bg-red-800 text-white py-2 px-4 rounded hover:bg-red-900 transition duration-300">Critiquer</button>
+                    <button id="custom-prompt" data-chatroom-id="{{ chatroom.id }}" class="bg-red-800 text-white py-2 px-4 rounded hover:bg-red-900 transition duration-300">Prompt personnalisé</button>
                 </div>
 
                 <!-- Formulaire d'envoi de message -->
                 <form action="{{ path('app_chat_send', {'id': chatroom.id}) }}" method="post" class="flex items-center space-x-4">
                     <input type="text" name="content" required class="w-full bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-tertiary transition duration-300"> Envoyer </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-6 rounded transition duration-300">Envoyer</button>
                 </form>
             </div>
-        </div>
 
-        <!-- Zone d'ajout d'utilisateur -->
-        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 flex-shrink-0 w-72">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Zone d'ajout d'utilisateur à droite -->
+            <div class="bg-white p-6 rounded-lg shadow w-full md:w-1/4">
                 <h3 class="text-xl font-bold text-primary mb-4">Ajouter un utilisateur</h3>
                 <form action="{{ path('app_user_chatroom_new', {'chatroomId': chatroom.id}) }}" method="post" class="flex flex-col space-y-4">
                     <input type="email" name="email" required placeholder="Email de l'utilisateur à ajouter" class="bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-tertiary transition duration-300"> Ajouter </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white py-3 px-6 rounded transition duration-300">Ajouter</button>
                 </form>
             </div>
         </div>
@@ -68,6 +86,7 @@
         </div>
     </footer>
 </div>
+
 
 {% block javascripts %}
 <script>

@@ -18,7 +18,7 @@
                             <span class="mr-2">👤</span>
                             <span id="accountStatus" class="font-medium">
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                    {{ app.user.email }}
+                                    {{ app.user.username }}
                                 {% else %}
                                     Compte
                                 {% endif %}
@@ -67,7 +67,7 @@
                 <div id="messages" class="messages mb-6 max-h-96 overflow-y-auto">
                     {% for message in chatroom.messages %}
                         <div class="message mb-4">
-                            <strong class="text-primary">{{ message.user.email }}:</strong> 
+                            <strong class="text-primary">{{ message.user.username }}:</strong> 
                             <p class="text-gray-700">{{ message.content }}</p>
                         </div>
                     {% endfor %}

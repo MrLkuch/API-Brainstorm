@@ -49,7 +49,7 @@ final class ChatroomController extends AbstractController {
                 $entityManager->flush();
             }
     
-            return $this->redirect('http://localhost:8001/chat');
+            return $this->redirect('http://localhost:8000/chat');
         }
     
         return $this->render('chatroom/new.html.twig', [

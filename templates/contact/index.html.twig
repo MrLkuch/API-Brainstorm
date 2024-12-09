@@ -21,7 +21,7 @@
                             <span class="mr-2">👤</span>
                             <span id="accountStatus" class="font-medium">
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                    {{ app.user.email }}
+                                    {{ app.user.username }}
                                 {% else %}
                                     Compte
                                 {% endif %}

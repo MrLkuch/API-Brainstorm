@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New UserChatroom{% endblock %}
+
+{% block body %}
+    <h1>Create new UserChatroom</h1>
+
+    {{ include('user_chatroom/_form.html.twig') }}
+
+    <a href="{{ path('app_user_chatroom_index') }}">back to list</a>
+{% endblock %}

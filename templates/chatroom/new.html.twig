@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Chatroom{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-background flex flex-col">
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="/" class="text-xl font-extrabold text-blue-700">BrainSpark AI </a>
+                <!-- Menu de navigation -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="{{ path('app_a_propos') }}" class="text-gray-700 hover:text-blue-700 transition">À propos</a>
+                    <a href="{{ path('app_contact') }}" class="text-gray-700 hover:text-blue-700 transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="flex-grow flex items-center justify-center bg-background">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-2xl font-bold text-primary text-center mb-6">Créer une nouvelle Chatroom</h1>
+
+            {{ form_start(form) }}
+                {{ form_row(form.name, {
+                    label: 'Nom de la Chatroom',
+                    attr: {
+                        placeholder: 'Entrez le nom de la chatroom',
+                        class: 'w-full bg-gray-100 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary'
+                    }
+                }) }}
+
+                <button class="w-full bg-blue-600 text-white py-3 rounded hover:bg-tertiary transition duration-300 type="submit" ">
+                    Créer et rejoindre
+                </button>
+            {{ form_end(form) }}
+
+            <a href="{{ path('app_chat') }}" class="w-full inline-block mt-4">
+                <button class="w-full bg-gray-600 text-white py-3 rounded hover:bg-gray-700 transition duration-300">
+                    Retour à la liste de vos chatrooms
+                </button>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-200 py-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-sm">© 2024 BrainSpark AI . Tous droits réservés.</p>
+        </div>
+    </footer>
+</div>
+{% endblock %}

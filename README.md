@@ -37,7 +37,7 @@ BrainSpark AI est une application web développée avec Symfony qui permet aux u
 
 1. **Cloner le dépôt :**
    ```bash
-   git clone [https://github.com/nom-utilisateur/chatconnect.git](https://github.com/MrLkuch/API-Brainstorm.git)
+   git clone https://github.com/nom-utilisateur/chatconnect.git
    cd API-Brainstorm
    
 2. **Installer les dépendances :**

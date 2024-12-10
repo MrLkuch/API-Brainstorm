@@ -34,7 +34,7 @@ public function synthesize(Request $request, int $chatroomId, EntityManagerInter
         }
 
         $messages = $content['messages'];
-        $prompt = "Synthétisez la discussion suivante : \n" . implode("\n", $messages);
+        $prompt = "Synthétisez la discussion suivante en français : \n" . implode("\n", $messages);
         $response = $this->groqService->sendRequest($prompt);
 
         if (!isset($response['choices'][0]['message']['content'])) {
@@ -88,7 +88,7 @@ public function generateIdea(Request $request, int $chatroomId, EntityManagerInt
         }
 
         $messages = $content['messages'];
-        $prompt = "Générez une idée liée à cette discussion : \n" . implode("\n", $messages);
+        $prompt = "Générez une idée en français liée à cette discussion : \n" . implode("\n", $messages);
         $response = $this->groqService->sendRequest($prompt);
 
         if (!isset($response['choices'][0]['message']['content'])) {
@@ -142,7 +142,7 @@ public function critique(Request $request, int $chatroomId, EntityManagerInterfa
         }
 
         $messages = $content['messages'];
-        $prompt = "Critique le contenu de cette discussion : \n" . implode("\n", $messages);
+        $prompt = "Critique le contenu de cette discussion et donne ta réponse en français : \n" . implode("\n", $messages);
         $response = $this->groqService->sendRequest($prompt);
 
         if (!isset($response['choices'][0]['message']['content'])) {

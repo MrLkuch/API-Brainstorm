@@ -111,6 +111,52 @@
 {% block javascripts %}
 <script>
 
+        {# const chatroomId = "{{ chatroom.id }}";
+
+// Connexion à Mercure via le hub sur le port 3000, en écoutant le topic basé sur le port 8001
+const eventSource = new EventSource(
+    `http://localhost:3000/.well-known/mercure?topic=http://localhost:8001/chat/${chatroomId}`
+);
+
+// Écoute des messages publiés
+eventSource.onmessage = event => {
+    const data = JSON.parse(event.data);
+    console.log('Message reçu :', data);
+    displayMessage(data.sender, data.content);
+};
+
+// Gestion des erreurs Mercure
+eventSource.onerror = error => {
+    console.error('Erreur de connexion à Mercure :', error);
+};
+
+// Fonction pour afficher les messages dans la chatroom
+function displayMessage(sender, content) {
+    const messageElement = document.createElement('p');
+    messageElement.textContent = `${sender}: ${content}`;
+    document.getElementById('chat-messages').appendChild(messageElement);
+}
+
+// Gestion de l'envoi de messages
+document.getElementById('chat-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const messageInput = document.getElementById('message-input');
+    const content = messageInput.value;
+
+    if (content.trim() !== '') {
+        await fetch(`/chat/${chatroomId}/send`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `content=${encodeURIComponent(content)}`
+        });
+
+        messageInput.value = '';
+    }
+}); #}
+
+
+
     document.addEventListener('DOMContentLoaded', () => {
     const userMenuButton = document.getElementById('userMenuButton');
     const userMenu = document.getElementById('userMenu');

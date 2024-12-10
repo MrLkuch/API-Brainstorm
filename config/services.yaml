@@ -31,3 +31,7 @@ services:
     App\Service\GroqService:
         arguments:
             $apiKey: '%env(GROQ_API_KEY)%'
+
+    App\Service\JwtProvider:
+        arguments:
+            $secret: '%env(MERCURE_JWT_SECRET)%'
